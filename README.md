@@ -41,6 +41,7 @@ src/components/hero/       carregamento e renderização dos quadros do hero con
 ## Publicação do cardápio
 - O cardápio é uma página independente dentro da aplicação, em `/cardapio`, com conteúdo centralizado em `src/data/menu.ts`.
 - `NEXT_PUBLIC_MENU_URL` permite apontar os links para um domínio/subdomínio quando estiver configurado. DNS e associação do domínio dependem do provedor de hospedagem.
+- Configure `NEXT_PUBLIC_SITE_URL` com a URL pública do site para habilitar a base dos metadados e as imagens de compartilhamento social.
 
 ## A conferir antes de publicar
 - Associação foto ↔ lanche foi feita pela aparência (ver `src/data/menu.ts`, campo `photo`).

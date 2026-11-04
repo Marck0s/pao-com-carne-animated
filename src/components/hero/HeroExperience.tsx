@@ -88,6 +88,7 @@ export function HeroExperience() {
         scene = createFrameScene({
           canvas,
           source,
+          smoothingMs: 52,
           onReady() {
             if (cancelled) return;
             stage.dataset.ready = "true";
@@ -193,6 +194,7 @@ export function HeroExperience() {
           aria-hidden="true"
         />
         <canvas className="hero__canvas" ref={canvasRef} aria-hidden="true" />
+        <div className="hero__atmosphere" aria-hidden="true" />
         <div className="hero__scrim hero__scrim--top" aria-hidden="true" />
         <div className="hero__scrim hero__scrim--left" aria-hidden="true" />
         <div className="hero__scrim hero__scrim--bottom" aria-hidden="true" />
@@ -207,21 +209,21 @@ export function HeroExperience() {
             <span>Itaim Bibi</span>
           </p>
           <div className="hero__copy">
-            <p className="hero__kicker">Um clássico da família Chimichurri</p>
+            <p className="hero__kicker">Receita de família. Feita para reunir.</p>
             <h1 id="hero-title" className="hero__title">
-              ChimiBacon
+              Sabor de família. Sem frescura.
             </h1>
             <p className="hero__lede">
-              Pão de gergelim, carne 180g, cheddar, maionese de chimichurri, cebola caramelizada e bacon em cubos.
+              Pão, carne e bons encontros. Sem frescura, com o cuidado de quem gosta de receber.
             </p>
-            <p className="hero__price">
-              <span className="hero__price-value">R$ 42</span>
-              <span className="hero__price-note">um dos favoritos da casa</span>
+            <p className="hero__proof">
+              <span aria-hidden="true">✦</span>
+              <a href="#avaliacoes">Leia as avaliações de quem já veio</a>
             </p>
             <div className="hero__actions">
-              <Button href={MENU_URL}>Ver cardápio</Button>
+              <Button href={MENU_URL}>Conheça o cardápio</Button>
               <Button href={IFOOD_URL} variant="dark">
-                Pedir agora
+                Peça no iFood
               </Button>
             </div>
           </div>
@@ -257,8 +259,7 @@ export function HeroExperience() {
             </span>
           </div>
           <p className="sr-only">
-            Animação do hambúrguer ChimiBacon controlada pela rolagem. Pão de gergelim, carne 180g, cheddar, maionese de
-            chimichurri, cebola caramelizada e bacon em cubos. R$ 42.
+            Animação de um hambúrguer controlada pela rolagem.
           </p>
         </div>
       </div>

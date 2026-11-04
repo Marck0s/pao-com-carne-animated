@@ -7,9 +7,12 @@ import { Photo } from "@/components/ui/Photo";
 import { Button } from "@/components/ui/Button";
 import { IFOOD_URL } from "@/lib/config";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+
 export const metadata: Metadata = {
-  title: "Cardápio — Pão com Carne Hamburgueria",
-  description: "Confira burgers, smashs, entradas e extras da Pão com Carne no Itaim Bibi.",
+  ...(siteUrl ? { alternates: { canonical: new URL("/cardapio", siteUrl) } } : {}),
+  title: "Cardápio de burgers e smash | Pão com Carne no Itaim Bibi",
+  description: "Veja o cardápio da Pão com Carne no Itaim Bibi, São Paulo: burgers de 180g, smashs, família Chimichurri, entradas e extras.",
 };
 
 export default function MenuPage() {
