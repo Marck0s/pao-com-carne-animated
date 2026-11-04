@@ -1,0 +1,27 @@
+﻿node : [eval]:1
+At line:1 char:1
++ node -e "const p=require('C:/Users/Vinny/AppData/Local/npm-cache/_npx ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([eval]:1:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+const 
+p=require('C:/Users/Vinny/AppData/Local/npm-cache/_npx/13ab0715f9f30c2e/node_modules/playwright');(async()=>{const 
+b=await p.chromium.launch({channel:'chrome',headless:true,executablePath:'C:/Program 
+Files/Google/Chrome/Application/chrome.exe'});const pg=await b.newPage({viewport:{width:1440,height:900}});await 
+pg.goto('http://localhost:3000',{waitUntil:'domcontentloaded',timeout:60000});await pg.waitForTimeout(6000);const 
+c=await pg..hero__canvas;console.log(c?'y':'n');await b.close();process.exit(0);})();
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
+                                                                                       ^
+
+SyntaxError: Unexpected token '.'
+    at makeContextifyScript (node:internal/vm:185:14)
+    at node:internal/process/execution:107:22
+    at [eval]-wrapper:6:24
+    at runScript (node:internal/process/execution:101:62)
+    at evalScript (node:internal/process/execution:133:3)
+    at node:internal/main/eval_string:51:3
+
+Node.js v20.16.0
