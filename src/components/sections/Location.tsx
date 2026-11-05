@@ -5,7 +5,7 @@ import { MAPS_DIRECTIONS_URL, MAPS_EMBED_URL, SITE } from "@/lib/config";
 
 export function Location() {
   return (
-    <section id="local" className="location-section relative mx-auto grid max-w-[1320px] scroll-mt-20 items-center gap-10 overflow-clip px-4 py-20 sm:px-10 md:grid-cols-[.8fr_1.2fr] md:gap-16 md:py-28 lg:px-14">
+    <section id="local" className="location-section relative mx-auto grid max-w-[1320px] scroll-mt-20 items-center gap-10 overflow-clip px-4 py-20 sm:px-10 md:grid-cols-[1.15fr_.85fr] md:gap-16 md:py-28 lg:px-14">
       <div className="relative z-10">
         <p className="section-eyebrow">Vem de perto ou de longe</p>
         <WordReveal text="Onde fica" className="section-title" />

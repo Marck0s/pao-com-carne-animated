@@ -21,6 +21,9 @@ export const MAPS_DIRECTIONS_URL =
 export const MAPS_EMBED_URL =
   "https://www.google.com/maps?q=Rua+Bandeira+Paulista,+478,+Itaim+Bibi,+S%C3%A3o+Paulo+-+SP,+04532-002&output=embed";
 
+export const GOOGLE_REVIEW_URL =
+  "https://search.google.com/local/writereview?placeid=ChIJPRm_I1xXzpQRyhYhYx89jo4";
+
 export const NAV_ITEMS = [
   { id: "historia", label: "História" },
   { id: "cardapio", label: "Cardápio", href: MENU_URL },

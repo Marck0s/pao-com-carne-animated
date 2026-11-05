@@ -1,7 +1,9 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { Button } from "@/components/ui/Button";
 import { WordReveal } from "@/components/ui/WordReveal";
 import { REVIEWS, type Review } from "@/data/reviews";
+import { GOOGLE_REVIEW_URL } from "@/lib/config";
 
 function ReviewCard({ r }: { r: Review }) {
   return (
@@ -85,9 +87,26 @@ export function Reviews() {
       <div ref={track} className="rev-track">
         <div ref={palco} className="rev-palco">
           <div className="px-4 sm:px-14">
-            <p className="section-eyebrow">A casa é feita de encontros</p>
-            <WordReveal text="Quem prova, recomenda." className="section-title section-title--light" />
-            <p className="mt-3.5 max-w-[46ch] opacity-85">Experiências reais de quem já sentou à mesa com a gente.</p>
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
+              <div>
+                <p className="section-eyebrow">A casa é feita de encontros</p>
+                <WordReveal text="Quem prova, recomenda." className="section-title section-title--light" />
+                <p className="mt-3.5 max-w-[46ch] opacity-85">Experiências reais de quem já sentou à mesa com a gente.</p>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-4 lg:ml-auto lg:justify-end">
+                <div className="flex items-center gap-3">
+                  <p className="sr-only">Nota 4,8 de 5 estrelas no Google, com mais de 15 mil avaliações.</p>
+                  <span aria-hidden="true" className="font-display text-4xl leading-none text-mustard">4,8</span>
+                  <div aria-hidden="true">
+                    <span className="block text-lg leading-none tracking-[3px] text-mustard">★★★★★</span>
+                    <span className="mt-1 block text-sm opacity-85">+15 mil avaliações no Google</span>
+                  </div>
+                </div>
+                <Button href={GOOGLE_REVIEW_URL} variant="yellow" small>
+                  Já provou? Avalie sua experiência!
+                </Button>
+              </div>
+            </div>
             <p aria-hidden="true" className="mt-4 text-[15px] font-semibold text-mustard">
               <span className="hint-dk">Continue rolando para ver mais</span>
               <span className="hint-mb">Deslize para o lado para ver mais</span> →
