@@ -8,6 +8,8 @@ import type { FrameScene } from "@/components/hero/frame-scene";
 import type { FrameStream } from "@/components/hero/frame-stream";
 import type { ScrollDriver } from "@/components/hero/scroll-driver";
 
+const connectorPathLengths = new WeakMap<SVGPathElement, number>();
+
 function pad2(n: number): string {
   return String(n).padStart(2, "0");
 }
@@ -26,6 +28,17 @@ function updateScrollOverlays(
   eyebrow.style.opacity = String(1 - fade);
   eyebrow.style.transform = `translate3d(${-18 * fade}px, 0, 0)`;
 
+  const connectorsSvg = callouts.querySelector<SVGSVGElement>(".hero__connectors");
+  const screenMatrix = connectorsSvg ? connectorsSvg.getScreenCTM() : null;
+  let inverseMatrix: DOMMatrix | null = null;
+  if (screenMatrix) {
+    try {
+      inverseMatrix = screenMatrix.inverse();
+    } catch {
+      inverseMatrix = null;
+    }
+  }
+
   callouts.querySelectorAll<HTMLElement>("[data-callout]").forEach((label) => {
     const id = label.dataset.callout;
     const reveal = progressBetween(
@@ -42,17 +55,37 @@ function updateScrollOverlays(
     if (!connector) return;
     connector.style.opacity = String(reveal);
     connector.style.visibility = reveal > 0 ? "visible" : "hidden";
-    connector.querySelectorAll<SVGPathElement>("path").forEach((path) => {
-      const length = path.getTotalLength();
-      path.style.strokeDasharray = String(length);
-      path.style.strokeDashoffset = String(length * (1 - reveal));
+    let activePath: SVGPathElement | undefined;
+    connector.querySelectorAll<SVGPathElement>(".hero__connector-line").forEach((path) => {
+      let length = connectorPathLengths.get(path);
+      if (length === undefined) {
+        length = path.getTotalLength();
+        connectorPathLengths.set(path, length);
+      }
+      path.style.strokeDasharray = "none";
+      path.style.strokeDashoffset = "0";
+      if (getComputedStyle(path).display !== "none") activePath = path;
     });
+
+    const arrowhead = connector.querySelector<SVGPathElement>(".hero__arrowhead");
+    if (!activePath || !arrowhead || reveal === 0) {
+      if (arrowhead) arrowhead.style.visibility = "hidden";
+      return;
+    }
+
+    const length = connectorPathLengths.get(activePath);
+    if (!length) {
+      arrowhead.style.visibility = "hidden";
+      return;
+    }
+
+    drawArrowhead(arrowhead, activePath, length, screenMatrix, inverseMatrix);
   });
 
   const actionProgress = progressBetween(progress, 0.76, 0.94);
   actions.style.opacity = String(actionProgress);
   actions.style.visibility = actionProgress > 0 ? "visible" : "hidden";
-  actions.style.transform = `translate3d(${18 * (1 - actionProgress)}px, 0, 0) scale(${0.97 + actionProgress * 0.03})`;
+  actions.style.transform = `translate3d(-50%, ${18 * (1 - actionProgress)}px, 0) scale(${0.97 + actionProgress * 0.03})`;
   actions.inert = actionProgress < 0.55;
   actions.setAttribute("aria-hidden", String(actionProgress < 0.55));
 }
@@ -60,6 +93,78 @@ function updateScrollOverlays(
 function progressBetween(progress: number, start: number, end: number): number {
   if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) return 0;
   return Math.min(1, Math.max(0, (progress - start) / (end - start)));
+}
+
+/**
+ * The connectors live in a 0..1000 viewBox stretched with
+ * `preserveAspectRatio="none"`, so a triangle authored directly in user units
+ * gets sheared by the non-uniform scale (it ends up lopsided and can drift off
+ * the line's visual tangent). Build the arrowhead in screen space, where it
+ * stays isosceles and follows the real tangent, then map it back into the
+ * SVG's user space before writing the `d` attribute.
+ */
+function drawArrowhead(
+  arrowhead: SVGPathElement,
+  path: SVGPathElement,
+  visibleLength: number,
+  screenMatrix: DOMMatrix | null,
+  inverseMatrix: DOMMatrix | null,
+): void {
+  const svg = path.ownerSVGElement;
+  if (!svg || !screenMatrix || !inverseMatrix) {
+    arrowhead.style.visibility = "hidden";
+    return;
+  }
+
+  const matrix = screenMatrix;
+  const inverse = inverseMatrix;
+
+  const compact = typeof window !== "undefined" && window.innerWidth < 768;
+  const arrowLength = compact ? 11 : 16;
+  const halfWidth = compact ? 4.5 : 7;
+
+  const point = svg.createSVGPoint();
+  const toScreen = (x: number, y: number) => {
+    point.x = x;
+    point.y = y;
+    return point.matrixTransform(matrix);
+  };
+
+  const tipUser = path.getPointAtLength(visibleLength);
+  const previousUser = path.getPointAtLength(Math.max(0, visibleLength - 1));
+  const startUser = path.getPointAtLength(0);
+
+  const tip = toScreen(tipUser.x, tipUser.y);
+  const previous = toScreen(previousUser.x, previousUser.y);
+  const start = toScreen(startUser.x, startUser.y);
+
+  // Not enough of the line has been drawn yet for the arrowhead to sit on it.
+  if (Math.hypot(tip.x - start.x, tip.y - start.y) < arrowLength) {
+    arrowhead.style.visibility = "hidden";
+    return;
+  }
+
+  const angle = Math.atan2(tip.y - previous.y, tip.x - previous.x);
+  const backX = tip.x - Math.cos(angle) * arrowLength;
+  const backY = tip.y - Math.sin(angle) * arrowLength;
+  const sideX = Math.sin(angle) * halfWidth;
+  const sideY = -Math.cos(angle) * halfWidth;
+
+  const toUser = (x: number, y: number) => {
+    point.x = x;
+    point.y = y;
+    return point.matrixTransform(inverse);
+  };
+
+  const tipPoint = toUser(tip.x, tip.y);
+  const leftPoint = toUser(backX + sideX, backY + sideY);
+  const rightPoint = toUser(backX - sideX, backY - sideY);
+
+  arrowhead.setAttribute(
+    "d",
+    `M ${leftPoint.x} ${leftPoint.y} L ${tipPoint.x} ${tipPoint.y} L ${rightPoint.x} ${rightPoint.y}`,
+  );
+  arrowhead.style.visibility = "visible";
 }
 
 export function HeroExperience() {
@@ -280,7 +385,7 @@ export function HeroExperience() {
                 <span aria-hidden="true">✦</span>
                 <a href="#avaliacoes">Leia as avaliações de quem já veio</a>
               </p>
-              <div className="hero__actions">
+              <div className="hero__actions hero__actions--intro">
                 <Button href={MENU_URL}>Conheça o cardápio</Button>
                 <Button href={IFOOD_URL} variant="dark">
                   Peça no iFood
@@ -291,34 +396,35 @@ export function HeroExperience() {
 
           <div ref={calloutsRef} className="hero__callouts" role="list" aria-label="Ingredientes do hambúrguer">
             <svg className="hero__connectors" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <marker id="hero-ingredient-arrow" viewBox="0 0 16 16" refX="15" refY="8" markerWidth="16" markerHeight="16" orient="auto" markerUnits="userSpaceOnUse">
-                  <path className="hero__arrowhead" d="M0 0 L16 8 L0 16 Z" />
-                </marker>
-              </defs>
               <g data-connector="bun" className="hero__connector">
-                <path className="hero__connector-desktop" markerEnd="url(#hero-ingredient-arrow)" d="M250 160 C355 100 400 100 400 140" />
-                <path className="hero__connector-mobile" markerEnd="url(#hero-ingredient-arrow)" d="M360 180 C430 180 480 200 420 280" />
+                <path className="hero__connector-line hero__connector-desktop" d="M250 160 C355 100 400 100 400 140" />
+                <path className="hero__connector-line hero__connector-mobile" d="M360 180 C430 180 480 200 420 280" />
+                <path className="hero__arrowhead" />
               </g>
               <g data-connector="mayo" className="hero__connector">
-                <path className="hero__connector-desktop" markerEnd="url(#hero-ingredient-arrow)" d="M250 500 C330 320 400 450 500 320" />
-                <path className="hero__connector-mobile" markerEnd="url(#hero-ingredient-arrow)" d="M360 420 C400 420 410 440 440 340" />
+                <path className="hero__connector-line hero__connector-desktop" d="M250 500 C330 320 400 450 500 320" />
+                <path className="hero__connector-line hero__connector-mobile" d="M360 420 C400 420 410 440 440 340" />
+                <path className="hero__arrowhead" />
               </g>
               <g data-connector="onion" className="hero__connector">
-                <path className="hero__connector-desktop" markerEnd="url(#hero-ingredient-arrow)" d="M250 680 C330 680 370 520 445 590" />
-                <path className="hero__connector-mobile" markerEnd="url(#hero-ingredient-arrow)" d="M360 640 C400 640 410 560 445 450" />
+                <path className="hero__connector-line hero__connector-desktop" d="M250 680 C330 680 370 520 445 590" />
+                <path className="hero__connector-line hero__connector-mobile" d="M360 640 C400 640 410 560 445 450" />
+                <path className="hero__arrowhead" />
               </g>
               <g data-connector="right-bacon" className="hero__connector">
-                <path className="hero__connector-desktop" markerEnd="url(#hero-ingredient-arrow)" d="M750 290 C710 290 690 355 650 360" />
-                <path className="hero__connector-mobile" markerEnd="url(#hero-ingredient-arrow)" d="M640 300 C620 300 620 370 640 420" />
+                <path className="hero__connector-line hero__connector-desktop" d="M750 290 C710 290 690 355 650 360" />
+                <path className="hero__connector-line hero__connector-mobile" d="M640 300 C620 300 620 370 640 420" />
+                <path className="hero__arrowhead" />
               </g>
               <g data-connector="right-cheddar" className="hero__connector">
-                <path className="hero__connector-desktop" markerEnd="url(#hero-ingredient-arrow)" d="M750 535 C710 535 690 570 640 650" />
-                <path className="hero__connector-mobile" markerEnd="url(#hero-ingredient-arrow)" d="M640 520 C620 400 500 530 500 530" />
+                <path className="hero__connector-line hero__connector-desktop" d="M750 535 C710 535 690 570 640 650" />
+                <path className="hero__connector-line hero__connector-mobile" d="M640 520 C620 400 500 530 500 530" />
+                <path className="hero__arrowhead" />
               </g>
               <g data-connector="right-beef" className="hero__connector">
-                <path className="hero__connector-desktop" markerEnd="url(#hero-ingredient-arrow)" d="M750 720 C710 720 690 800 600 800" />
-                <path className="hero__connector-mobile" markerEnd="url(#hero-ingredient-arrow)" d="M640 730 C620 730 610 630 600 530" />
+                <path className="hero__connector-line hero__connector-desktop" d="M750 720 C710 720 690 800 600 800" />
+                <path className="hero__connector-line hero__connector-mobile" d="M640 730 C620 730 610 630 600 530" />
+                <path className="hero__arrowhead" />
               </g>
             </svg>
             <div className="hero__callout" role="listitem" data-callout="bun" data-start="0.22" data-end="0.43">

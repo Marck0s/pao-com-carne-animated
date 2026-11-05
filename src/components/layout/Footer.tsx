@@ -1,6 +1,7 @@
 import Image from "next/image";
+import { InstagramIcon } from "@/components/ui/InstagramIcon";
 import { IMG } from "@/lib/images";
-import { MAPS_DIRECTIONS_URL, MENU_URL, SITE } from "@/lib/config";
+import { INSTAGRAM_URL, MAPS_DIRECTIONS_URL, MENU_URL, SITE } from "@/lib/config";
 
 export function Footer() {
   return (
@@ -12,6 +13,10 @@ export function Footer() {
             <span className="font-display text-xl">{SITE.name}</span>
           </a>
           <p className="mb-0 mt-4 max-w-[36ch] text-sm leading-relaxed text-cream/70">{SITE.tagline}</p>
+          <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="footer__instagram-link mt-4 text-sm text-cream/80">
+            <InstagramIcon />
+            <span>Instagram</span>
+          </a>
         </div>
         <div>
           <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-mustard">Visite a casa</h2>

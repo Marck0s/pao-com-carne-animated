@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
+import { InstagramIcon } from "@/components/ui/InstagramIcon";
 import { useActiveSection } from "@/hooks/useActiveSection";
-import { IFOOD_URL, NAV_ITEMS } from "@/lib/config";
+import { IFOOD_URL, INSTAGRAM_URL, NAV_ITEMS } from "@/lib/config";
 import { IMG } from "@/lib/images";
 import { cn } from "@/lib/cn";
 
@@ -82,6 +83,18 @@ export function Header() {
               </li>
             );
           })}
+          <li>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram da Pão com Carne"
+              className="site-header__social-link"
+              onClick={() => setMenuOpen(false)}
+            >
+              <InstagramIcon />
+            </a>
+          </li>
         </ul>
         <Button href={IFOOD_URL} small className="site-header__order">Pedir agora</Button>
       </nav>
