@@ -228,6 +228,131 @@
   .hero__copy,
   .hero__title::after { animation: none !important; }
 }
+.hero__copy-scroll {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: inherit;
+  will-change: opacity, transform;
+}
+.hero__eyebrow-scroll {
+  display: flex;
+  align-items: center;
+  gap: inherit;
+  will-change: opacity, transform;
+}
+.hero__callouts {
+  position: absolute;
+  z-index: 8;
+  inset: 0;
+  pointer-events: none;
+}
+.hero__connectors {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.hero__connector { visibility: hidden; }
+.hero__connector path {
+  fill: none;
+  stroke: #f9c80e;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.hero__arrowhead { fill: #f9c80e; stroke: #f9c80e; stroke-width: 0.5; }
+.hero__connector-mobile,
+.hero__connector-dot-mobile { display: none; }
+.hero__callout {
+  position: absolute;
+  z-index: 1;
+  left: 2.5%;
+  display: flex;
+  width: clamp(220px, 23vw, 320px);
+  flex-direction: column;
+  gap: 6px;
+  padding: 15px 18px;
+  border: 1px solid rgb(249 200 14 / 46%);
+  border-radius: 8px;
+  background: rgb(26 15 10 / 78%);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 15%);
+  color: #f5efe6;
+  visibility: hidden;
+  will-change: opacity, transform;
+}
+.hero__callout b { color: #f9c80e; font-size: clamp(15px, 1.25vw, 18px); font-weight: 700; line-height: 1.3; }
+.hero__callout span { color: rgb(245 239 230 / 76%); font-size: 12px; line-height: 1.35; }
+.hero__callout[data-callout="bun"] { top: 12%; }
+.hero__callout[data-callout="mayo"] { top: 40%; }
+.hero__callout[data-callout="onion"] { top: 68%; }
+.hero__callout[data-callout="right-bacon"] { top: 24%; }
+.hero__callout[data-callout="right-cheddar"] { top: 50%; }
+.hero__callout[data-callout="right-beef"] { top: 68%; }
+.hero__callout--right { left: 77%; }
+.hero__final-actions {
+  position: absolute;
+  z-index: 12;
+  right: max(4%, 56px);
+  bottom: clamp(74px, 8vh, 96px);
+  display: flex;
+  width: clamp(195px, 19vw, 270px);
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: auto;
+  visibility: hidden;
+  will-change: opacity, transform;
+}
+.hero__final-actions .btn {
+  justify-content: center;
+  text-align: center;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), background-color 220ms ease;
+}
+.hero__final-actions .btn:hover { transform: translateY(-3px) scale(1.015); }
+@media (max-width: 767px) {
+  .hero__callout {
+    left: 2%;
+    width: 35%;
+    gap: 2px;
+    padding: 6px 7px;
+    border-radius: 5px;
+    background: rgb(26 15 10 / 84%);
+  }
+  .hero__callout b { font-size: clamp(9px, 2.8vw, 11px); }
+  .hero__callout span { font-size: clamp(8px, 2.3vw, 9px); }
+  .hero__callout[data-callout="bun"] { top: 16%; }
+  .hero__callout[data-callout="mayo"] { top: 39%; }
+  .hero__callout[data-callout="onion"] { top: 61%; }
+  .hero__callout[data-callout="right-bacon"] { top: 28%; }
+  .hero__callout[data-callout="right-cheddar"] { top: 49%; }
+  .hero__callout[data-callout="right-beef"] { top: 68%; }
+  .hero__callout--right { left: 63%; }
+  .hero__connector-desktop,
+  .hero__connector-dot-desktop { display: none; }
+  .hero__connector-mobile,
+  .hero__connector-dot-mobile { display: initial; }
+  .hero__connector path { stroke-width: 1.2; }
+  .hero__final-actions {
+    right: max(14px, env(safe-area-inset-right));
+    bottom: max(62px, calc(env(safe-area-inset-bottom) + 52px));
+    width: min(74vw, 290px);
+    gap: 8px;
+  }
+  .hero__final-actions .btn { min-height: 44px; padding: 8px 10px; font-size: 12px; }
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .hero__callout { width: clamp(190px, 23vw, 245px); padding: 12px 14px; }
+  .hero__callout--right { left: 75%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__copy-scroll,
+  .hero__eyebrow-scroll { will-change: auto; }
+  .hero__callouts,
+  .hero__final-actions { display: none; }
+  .hero__final-actions .btn { transition: none; }
+}
 
 /* Restaurant identity and editorial page system */
 :root {
