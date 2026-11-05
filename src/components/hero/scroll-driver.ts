@@ -1,4 +1,5 @@
 import { HERO_FRAME_COUNT } from "@/lib/hero-frames";
+import { loadGsapScroll, type ScrollTriggerStatic } from "@/lib/gsap-scroll";
 
 /**
  * Scroll -> frame driver.
@@ -23,56 +24,17 @@ export interface ScrollDriver {
   getProgress(): number;
 }
 
-type Gsap = typeof import("gsap").gsap;
-type ScrollTriggerStatic = typeof import("gsap/ScrollTrigger").ScrollTrigger;
 type ScrollTriggerInstance = InstanceType<ScrollTriggerStatic>;
-
-interface GsapBundle {
-  gsap: Gsap;
-  ScrollTrigger: ScrollTriggerStatic;
-}
 
 const SCRUB_SECONDS = 0.14;
 const PROGRESS_EPSILON = 0.002;
-
-/** Module-level guard: gsap.registerPlugin must run only once per page. */
-let cachedBundle: GsapBundle | null = null;
-let bundlePromise: Promise<GsapBundle> | null = null;
-
-function loadGsapBundle(): Promise<GsapBundle> {
-  if (cachedBundle) return Promise.resolve(cachedBundle);
-
-  if (!bundlePromise) {
-    bundlePromise = (async () => {
-      const [gsapModule, scrollTriggerModule] = await Promise.all([
-        import("gsap"),
-        import("gsap/ScrollTrigger"),
-      ]);
-
-      const gsap = gsapModule.gsap;
-      const ScrollTrigger = scrollTriggerModule.ScrollTrigger;
-      gsap.registerPlugin(ScrollTrigger);
-      // Mobile browser chrome changes should not invalidate every trigger.
-      ScrollTrigger.config({ ignoreMobileResize: true });
-
-      cachedBundle = { gsap, ScrollTrigger };
-      return cachedBundle;
-    })().catch((error: unknown) => {
-      // Allow a later attempt (e.g. after a transient chunk load failure).
-      bundlePromise = null;
-      throw error;
-    });
-  }
-
-  return bundlePromise;
-}
 
 export function createScrollDriver(options: ScrollDriverOptions): Promise<ScrollDriver> {
   if (typeof window === "undefined") {
     return Promise.reject(new Error("createScrollDriver requires a browser environment"));
   }
 
-  return loadGsapBundle().then(({ gsap, ScrollTrigger }) => {
+  return loadGsapScroll().then(({ gsap, ScrollTrigger }) => {
     const requestedCount = Number.isFinite(options.frameCount)
       ? Math.floor(options.frameCount)
       : HERO_FRAME_COUNT;

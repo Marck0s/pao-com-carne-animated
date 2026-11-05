@@ -31,7 +31,17 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <p className="mx-auto mb-0 max-w-[1320px] pt-5 text-xs text-cream/55">{SITE.name} · Itaim Bibi, São Paulo</p>
+      <p className="mx-auto mb-0 flex max-w-[1320px] flex-col items-start gap-y-3 pt-5 text-xs text-cream/55 lg:flex-row lg:items-center lg:justify-between">
+        <span>{SITE.name} · Itaim Bibi, São Paulo</span>
+        <a
+          href="https://www.odysen.com.br"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="footer__credit-link"
+        >
+          Desenvolvido por <span className="footer__credit-name">Odysen</span>
+        </a>
+      </p>
     </footer>
   );
 }

@@ -288,10 +288,13 @@
 }
 .site-header__brand:hover img { transform: rotate(-7deg); }
 .site-header__wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.22em;
   font-family: var(--font-body), Georgia, serif;
   font-size: 19px;
   font-weight: 700;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.02em;
 }
 .site-header__wordmark i { color: var(--pc-mustard); font-weight: 400; }
 .site-header__links {
@@ -433,6 +436,7 @@
   border-radius: 13px;
   background: #36201b;
 }
+.gallery-tile__parallax { position: absolute; inset: -6% 0; will-change: transform; }
 .gallery-tile img { transition: transform 850ms var(--pc-ease), filter 600ms ease; }
 .gallery-tile:hover img { transform: scale(1.015); filter: saturate(1.04); }
 .gallery-tile__tag {
@@ -467,6 +471,18 @@
 .story-timeline {
   position: relative;
   border-left: 1px solid rgb(247 240 226 / 38%);
+}
+.story-timeline__progress {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: var(--pc-mustard);
+  transform: scaleY(0);
+  transform-origin: top;
+  pointer-events: none;
 }
 .story-timeline__item { padding-bottom: 28px; }
 .story-timeline__item:last-child { padding-bottom: 0; }
@@ -576,6 +592,9 @@
 }
 .site-header ~ main + footer a { transition: color 180ms ease; }
 .site-header ~ main + footer a:hover { color: var(--pc-mustard); }
+.site-header ~ main + footer .footer__credit-link:hover { color: inherit; }
+.footer__credit-name { transition: color 180ms ease; }
+.site-header ~ main + footer .footer__credit-link:hover .footer__credit-name { color: #a855f7; }
 .whatsapp-float {
   position: fixed;
   z-index: 40;
@@ -699,10 +718,13 @@
   .site-header,
   .site-header *,
   .story-value,
+  .gallery-tile__parallax,
   .gallery-tile img,
   .story-photo img,
   .menu-tabs button,
   .menu-section [role="tabpanel"] > div > div,
   .whatsapp-float,
   .btn { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  .gallery-tile__parallax { inset: 0; will-change: auto; }
+  .story-timeline__progress { display: none; }
 }

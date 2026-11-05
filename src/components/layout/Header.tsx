@@ -38,7 +38,11 @@ export function Header() {
       <nav aria-label="Principal" className="site-header__nav">
         <a href={isHome ? "#inicio" : "/"} aria-label="Pão com Carne — início" className="site-header__brand" onClick={() => setMenuOpen(false)}>
           <Image src={IMG.logo.src} alt={IMG.logo.alt} width={52} height={52} priority className="h-12 w-12 rounded-full ring-2 ring-cream sm:h-[52px] sm:w-[52px]" />
-          <span className="site-header__wordmark">Pão <i>com </i> Carne</span>
+          <span className="site-header__wordmark">
+            <span>Pão</span>
+            <i>com </i>
+            <span>Carne</span>
+          </span>
         </a>
         <button
           type="button"
