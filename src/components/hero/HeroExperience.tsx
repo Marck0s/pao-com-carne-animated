@@ -88,7 +88,7 @@ export function HeroExperience() {
         scene = createFrameScene({
           canvas,
           source,
-          smoothingMs: 52,
+          smoothingMs: 24,
           onReady() {
             if (cancelled) return;
             stage.dataset.ready = "true";
@@ -184,10 +184,10 @@ export function HeroExperience() {
         <img
           className="hero__poster"
           src={HERO_POSTER.desktopSrc}
-          srcSet={`${HERO_POSTER.mobileSrc} 960w, ${HERO_POSTER.desktopSrc} 1600w`}
+          srcSet={`${HERO_POSTER.mobileSrc} 960w, ${HERO_POSTER.desktopSrc} 1920w`}
           sizes="100vw"
-          width={1600}
-          height={900}
+          width={1920}
+          height={1080}
           decoding="async"
           fetchPriority="high"
           alt=""

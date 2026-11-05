@@ -2,7 +2,7 @@ export const HERO_FRAME_COUNT = 75;
 export const HERO_FRAME_ASPECT = 16 / 9;
 
 export const HERO_FRAME_VARIANTS = {
-  desktop: 1600,
+  desktop: 1920,
   mobile: 960,
 } as const;
 
@@ -17,7 +17,7 @@ export interface HeroPoster {
 
 export const HERO_POSTER: HeroPoster = {
   mobileSrc: "/frames/chimibacon/960/frame_001.webp",
-  desktopSrc: "/frames/chimibacon/1600/frame_001.webp",
+  desktopSrc: "/frames/chimibacon/1920/frame_001.webp",
   width: 1920,
   height: 1080,
 };

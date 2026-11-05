@@ -21,7 +21,7 @@ const OUT_DIR = path.join(ROOT, "public", "frames", "chimibacon");
 /** Desktop keeps enough resolution for a cinematic full-bleed hero. Mobile
  * gets a lighter variant to keep GPU memory and decoding time low. */
 const VARIANTS = [
-  { width: 1600, quality: 74 },
+  { width: 1920, quality: 82 },
   { width: 960, quality: 70 },
 ];
 

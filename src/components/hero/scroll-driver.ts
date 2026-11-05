@@ -32,7 +32,7 @@ interface GsapBundle {
   ScrollTrigger: ScrollTriggerStatic;
 }
 
-const SCRUB_SECONDS = 0.24;
+const SCRUB_SECONDS = 0.14;
 const PROGRESS_EPSILON = 0.002;
 
 /** Module-level guard: gsap.registerPlugin must run only once per page. */

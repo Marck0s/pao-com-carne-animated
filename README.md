@@ -30,7 +30,7 @@ src/components/hero/       carregamento e renderização dos quadros do hero con
 - **Cardápio:** rota dedicada `/cardapio`; configure `NEXT_PUBLIC_MENU_URL` para apontar os links a outro endereço quando o domínio estiver publicado.
 - **Preços e itens:** `src/data/menu.ts` (os destaques usam o preço/descrição do cardápio).
 - **Novas avaliações:** acrescente objetos em `src/data/reviews.ts` (somente textos reais). Com 3 ou mais, o carrossel horizontal por rolagem ativa sozinho.
-- **Trocar a animação do hero:** substitua os quadros em `public/frames/chimibacon/960/` e `public/frames/chimibacon/1600/`, mantendo os nomes `frame_001.webp` a `frame_075.webp`.
+- **Trocar a animação do hero:** substitua os quadros em `public/frames/chimibacon/960/` e `public/frames/chimibacon/1920/`, mantendo os nomes `frame_001.webp` a `frame_075.webp`.
 
 ## Movimento e acessibilidade
 - Entradas por `IntersectionObserver` (uma vez), palavra por palavra com transições CSS, máscara nas fotos.
