@@ -9,9 +9,10 @@ interface PhotoProps {
   className?: string;
   priority?: boolean;
   alt?: string;
+  quality?: number;
 }
 
-export function Photo({ name, sizes = "(max-width: 768px) 100vw, 50vw", className, priority, alt }: PhotoProps) {
+export function Photo({ name, sizes = "(max-width: 768px) 100vw, 50vw", className, priority, alt, quality }: PhotoProps) {
   const { src, alt: defaultAlt } = IMG[name];
-  return <Image src={src} alt={alt ?? defaultAlt} fill sizes={sizes} priority={priority} className={cn("object-cover", className)} />;
+  return <Image src={src} alt={alt ?? defaultAlt} fill sizes={sizes} priority={priority} quality={quality} className={cn("object-cover", className)} />;
 }

@@ -89,6 +89,7 @@ export function HeroExperience() {
           canvas,
           source,
           smoothingMs: 24,
+          maxPixelRatio: window.innerWidth >= 768 ? 2 : 1.5,
           onReady() {
             if (cancelled) return;
             stage.dataset.ready = "true";
@@ -194,7 +195,6 @@ export function HeroExperience() {
           aria-hidden="true"
         />
         <canvas className="hero__canvas" ref={canvasRef} aria-hidden="true" />
-        <div className="hero__atmosphere" aria-hidden="true" />
         <div className="hero__scrim hero__scrim--top" aria-hidden="true" />
         <div className="hero__scrim hero__scrim--left" aria-hidden="true" />
         <div className="hero__scrim hero__scrim--bottom" aria-hidden="true" />

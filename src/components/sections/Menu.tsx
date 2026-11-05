@@ -1,8 +1,6 @@
 "use client";
 import { useState, type KeyboardEvent } from "react";
 import { Button } from "@/components/ui/Button";
-import { Gotas } from "@/components/ui/Gotas";
-import { PALETTES } from "@/components/ui/gotas-palettes";
 import { Photo } from "@/components/ui/Photo";
 import { WordReveal } from "@/components/ui/WordReveal";
 import { MENU, type MenuCategory } from "@/data/menu";
@@ -61,11 +59,10 @@ export function Menu() {
   const [active, setActive] = useState(MENU[0].id);
   const cat = MENU.find((c) => c.id === active) ?? MENU[0];
   return (
-    <section id="cardapio" aria-labelledby="menu-title" className="relative scroll-mt-20 overflow-clip bg-paper px-4 py-16 sm:px-10 md:py-24 lg:px-14">
-      <Gotas palette={PALETTES.light} maxAlpha={0.14} />
+    <section id="cardapio" aria-labelledby="menu-title" className="menu-section relative scroll-mt-20 overflow-clip px-4 py-16 sm:px-10 md:py-24 lg:px-14">
       <div className="relative z-10 mx-auto max-w-[1200px]">
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-brand">Feito na casa, servido com vontade</p>
-        <WordReveal id="menu-title" text="Cardápio completo" className="text-[clamp(34px,6vw,76px)]" />
+        <p className="section-eyebrow">Feito na casa, servido com vontade</p>
+        <WordReveal id="menu-title" text="Cardápio completo" className="section-title" />
         <p className="mt-4 max-w-[55ch] text-ink/80">Escolha uma categoria para encontrar seu próximo favorito.</p>
         <div role="tablist" aria-label="Categorias do cardápio" className="menu-tabs my-8 flex gap-2.5 overflow-x-auto pb-2 md:flex-wrap md:overflow-visible">
           {MENU.map((c) => (

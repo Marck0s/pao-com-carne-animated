@@ -12,14 +12,14 @@ npm run build && npm start
 ```
 public/images/…            fotos reais (JPEG otimizado)
 public/frames/chimibacon/  sequência de 75 quadros WebP para o hero
-src/app/                   layout (fontes, metadata), página e globals.css (tokens de animação)
+src/app/                   layout (fontes, metadata), páginas e globals.css (sistema visual e motion)
 src/lib/config.ts          LINKS OFICIAIS: iFood, WhatsApp, mapa, endereço, navegação
 src/lib/images.ts          catálogo de fotos + texto alternativo
 src/data/menu.ts           cardápio (preços/descrições) e nomes dos destaques
 src/data/reviews.ts        avaliações reais (adicione novas aqui)
 src/data/history.ts        linha do tempo da história
 src/hooks/                 useInView (entrada uma única vez), useActiveSection (menu)
-src/components/ui/         Button, Photo, Reveal, WordReveal, Gotas (fundo metaballs)
+src/components/ui/         Button, Photo, Reveal, WordReveal
 src/components/layout/     Header, Footer, WhatsAppFloat
 src/components/sections/   Hero, History, Featured, Gallery, Menu, Reviews, Order, Location
 src/components/hero/       carregamento e renderização dos quadros do hero conforme a rolagem
@@ -34,8 +34,8 @@ src/components/hero/       carregamento e renderização dos quadros do hero con
 
 ## Movimento e acessibilidade
 - Entradas por `IntersectionObserver` (uma vez), palavra por palavra com transições CSS, máscara nas fotos.
-- Fundo de gotas em Canvas: um laço por canvas, pausa fora da tela, estático com `prefers-reduced-motion`.
-- A animação do hero acompanha a rolagem; com "reduzir movimento", mostra o primeiro quadro sem animar.
+- Revelações por rolagem e animações decorativas respeitam `prefers-reduced-motion`.
+- O hero mantém a sequência original de quadros sincronizada com a rolagem; com "reduzir movimento", mostra o primeiro quadro sem animar.
 - Carrossel de avaliações: `sticky` + `translate3d`; em telas < 760 px vira fita com gesto horizontal.
 
 ## Publicação do cardápio

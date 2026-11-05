@@ -81,12 +81,12 @@ export function Reviews() {
   }, []);
 
   return (
-    <section id="avaliacoes" className="bg-ink text-cream">
+    <section id="avaliacoes" className="reviews-section text-cream">
       <div ref={track} className="rev-track">
         <div ref={palco} className="rev-palco">
           <div className="px-4 sm:px-14">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-mustard">A casa é feita de encontros</p>
-            <WordReveal text="Quem prova, recomenda." className="text-[clamp(34px,5vw,68px)]" />
+            <p className="section-eyebrow">A casa é feita de encontros</p>
+            <WordReveal text="Quem prova, recomenda." className="section-title section-title--light" />
             <p className="mt-3.5 max-w-[46ch] opacity-85">Experiências reais de quem já sentou à mesa com a gente.</p>
             <p aria-hidden="true" className="mt-4 text-[15px] font-semibold text-mustard">
               <span className="hint-dk">Continue rolando para ver mais</span>

@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { Featured } from "@/components/sections/Featured";
+import { Gallery } from "@/components/sections/Gallery";
 import { Hero } from "@/components/sections/Hero";
 import { History } from "@/components/sections/History";
 import { Location } from "@/components/sections/Location";
@@ -23,6 +24,7 @@ export default function Home() {
       <main>
         <Hero />
         <Featured />
+        <Gallery />
         <History />
         <Reviews />
         <Order />
