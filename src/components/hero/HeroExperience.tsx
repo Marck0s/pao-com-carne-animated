@@ -372,8 +372,8 @@ export function HeroExperience() {
               <span>Itaim Bibi</span>
             </span>
           </p>
-          <div className="hero__copy">
-            <div className="hero__copy-scroll" ref={copyRef}>
+          <div className="hero__copy" ref={copyRef}>
+            <div className="hero__copy-scroll">
               <p className="hero__kicker">Receita de família. Feita para reunir.</p>
               <h1 id="hero-title" className="hero__title">
                 Sabor de família. Sem frescura.

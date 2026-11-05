@@ -166,8 +166,9 @@
 
 /* Brand-led hero with restrained, compositor-friendly motion. */
 .hero__eyebrow,
-.hero__copy { animation: hero-intro 800ms var(--ease) both; }
-.hero__copy { bottom: clamp(120px,18vh,168px); animation-delay: 120ms; }
+.hero__copy-scroll { animation: hero-intro 800ms var(--ease) both; }
+.hero__copy { bottom: clamp(120px,18vh,168px); }
+.hero__copy-scroll { animation-delay: 120ms; }
 .hero__kicker { font-weight: 700; }
 .hero__title {
   max-width: 16ch;
@@ -226,7 +227,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .hero__eyebrow,
-  .hero__copy,
+  .hero__copy-scroll,
   .hero__title::after { animation: none !important; }
 }
 .hero__copy-scroll {
